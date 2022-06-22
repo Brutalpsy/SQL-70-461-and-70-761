@@ -8,12 +8,9 @@ FROM Employee
 GROUP BY EmployeeGovermentId
 HAVING COUNT(EmployeeGovermentId) > 1
 
-
-
 -- ADD COMBINATION OF UNIQE KEYS
 ALTER TABLE EmployeeTransaction
 ADD CONSTRAINT unqTransaction UNIQUE(Amount,DateOfTransaction,EmployeeNumber)
-
 
 
 SELECT * FROM EmployeeTransaction
