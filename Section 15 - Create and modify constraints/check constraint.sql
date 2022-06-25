@@ -57,3 +57,9 @@ DROP chkDateOfBirth
 
 ALTER TABLE EmployeeTransaction
 DROP chkAmount
+
+select * from Employee
+where EmployeeNumber = 123 
+union all
+select * from Employee
+where EmployeeNumber = 124
