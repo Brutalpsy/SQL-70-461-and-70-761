@@ -11,8 +11,8 @@ CREATE TRIGGER tr_EmployeeTransaction
     AS
     BEGIN
 	SET NOCOUNT ON
-	SELECT * FROM inserted
-	SELECT * FROM deleted
+	SELECT *,'INSERTED DATA' AS 'TRIGGER -> tr_EmployeeTransaction' FROM inserted
+	SELECT *,'DELETED DATA' AS 'TRIGGER -> tr_EmployeeTransaction' FROM deleted
 	SET NOCOUNT OFF
     END
 GO
