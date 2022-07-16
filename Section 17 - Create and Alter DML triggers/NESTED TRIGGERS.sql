@@ -1,0 +1,45 @@
+ALTER TRIGGER [tr_EmployeeTransaction]
+ON [dbo].[EmployeeTransaction]
+AFTER DELETE, INSERT, UPDATE
+AS
+BEGIN
+	-- SHOWS HOW DEEP NESTED IS THE TRIGGER
+	-- SELECT @@NESTLEVEL AS Nest_Level
+
+	IF @@NESTLEVEL = 1
+	BEGIN
+		SELECT *, @@NESTLEVEL as NESTLEVEL, 'INSERTED DATA' AS 'TRIGGER -> tr_EmployeeTransaction' FROM inserted
+		SELECT *, @@NESTLEVEL as NESTLEVEL, 'DELETED DATA' AS 'TRIGGER -> tr_EmployeeTransaction' FROM deleted
+	END
+END
+GO
+
+
+--SHOWS THE DATA FROM THE TRIGGER, SINCE THE NEST LEVEL IS 1
+BEGIN TRAN
+INSERT INTO EmployeeTransaction(Amount, DateOfTransaction, EmployeeNumber)
+VALUES(123,'20220101',123)
+ROLLBACK TRAN
+
+
+
+BEGIN TRAN
+-- SHOW DATA TO DELETE
+--SELECT * FROM ViewByDepartment WHERE TotalAmount = -2.77 AND EmployeeNumber = 132
+
+-- DELETE A RECORD
+-- DOESN'T SHOW DATA FROM THE TIGGER, SINCE THE NEST LEVEL IS 2
+DELETE FROM ViewByDepartment
+WHERE TotalAmount = -2.77 AND EmployeeNumber = 132
+
+-- CHECK IF DELETED
+--SELECT * FROM ViewByDepartment WHERE TotalAmount = -2.77 AND EmployeeNumber = 132
+ROLLBACK TRAN
+
+EXEC sp_configure 'nested triggers';
+
+--DISABLE AFTER TRIGGERS RECURSION
+EXEC sp_configure 'nested triggers',0;
+RECONFIGURE
+
+
