@@ -59,7 +59,6 @@ ROLLBACK TRAN
 
 
 --ANOTHER WAY
-
 BEGIN TRAN
 MERGE INTO EmployeeTransaction AS T
 USING (SELECT EmployeeNumber, DateOfTransaction, SUM(Amount) AS Amount FROM EmployeeTransactionNew
