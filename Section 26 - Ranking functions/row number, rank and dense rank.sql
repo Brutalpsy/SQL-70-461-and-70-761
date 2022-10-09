@@ -1,0 +1,27 @@
+-- OVERVIEW OF THE RANKING FUNCTIONS
+SELECT A.EmployeeNumber,
+A.AttendanceMonth,
+ROW_NUMBER() OVER(PARTITION BY A.EmployeeNumber ORDER BY A.EmployeeNumber, A.AttendanceMonth ) AS TheRowNumber,
+RANK() OVER(PARTITION BY A.EmployeeNumber ORDER BY A.EmployeeNumber, A.AttendanceMonth ) AS 'RANK',
+DENSE_RANK() OVER(PARTITION BY A.EmployeeNumber ORDER BY A.EmployeeNumber, A.AttendanceMonth ) AS DENSERANK
+FROM Employee AS E
+INNER JOIN Attendance AS A ON E.EmployeeNumber = A.EmployeeNumber
+
+
+-- INTRODUCE A TIE WITH A SUB QUERY
+-- TO SEE THE DIFFERENCE BETWEEN RANKING FUNCTIONS
+SELECT A.EmployeeNumber,
+A.AttendanceMonth,
+ROW_NUMBER() OVER(PARTITION BY A.EmployeeNumber ORDER BY A.EmployeeNumber, A.AttendanceMonth ) AS TheRowNumber,
+RANK() OVER(PARTITION BY A.EmployeeNumber ORDER BY A.EmployeeNumber, A.AttendanceMonth ) AS 'RANK', -- STAYS AT THE MINIMUM OF RANKING NUBMERS
+DENSE_RANK() OVER(PARTITION BY A.EmployeeNumber ORDER BY A.EmployeeNumber, A.AttendanceMonth ) AS DENSERANK --"DOUBLES" THE TIES
+FROM Employee AS E
+INNER JOIN (SELECT * FROM Attendance UNION ALL SELECT * FROM Attendance) AS A ON E.EmployeeNumber = A.EmployeeNumber
+
+
+-- SINCE ORDER BY IS MANDATORY FOR ROW_NUMBER OVER()
+-- BUT THERE IS A TRICK IN SKIPPING THAT ONE
+-- BY USING -> ORDER BY (SELECT NULL) OR ANY CONSTATNT (SELECT 11)
+-- BUT  SELECT NULL IS MORE UNIVERSAL
+
+SELECT *, ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) FROM Attendance
