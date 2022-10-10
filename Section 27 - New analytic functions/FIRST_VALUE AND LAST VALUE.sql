@@ -1,0 +1,8 @@
+
+-- SHOWCASE OF FIRST_VALUE AND LAST VALUE
+SELECT A.EmployeeNumber, A.AttendanceMonth, A.NumberAttendance,
+--FIRST_VALUE(A.NumberAttendance) OVER (PARTITION BY E.EmployeeNumber ORDER BY A.AttendanceMonth /* IF YOU DONT SPECIFY IT WILL USE UNBOUNDED PRECEDING TO CURRENT ROW */) AS FirstMonth,
+FIRST_VALUE(A.NumberAttendance) OVER (PARTITION BY E.EmployeeNumber ORDER BY A.AttendanceMonth /* ROWS BETWEEN 2 PRECEDING AND CURRENT ROW  --YOU CAN PLAY AROUND WITH THIS AS YOU LIKE */ ) AS FirstMonth,
+LAST_VALUE (A.NumberAttendance) OVER (PARTITION BY E.EmployeeNumber ORDER BY A.AttendanceMonth ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS LastMonth
+FROM Employee AS E INNER JOIN Attendance AS A  
+ON E.EmployeeNumber = A.EmployeeNumber
