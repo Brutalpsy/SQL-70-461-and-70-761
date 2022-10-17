@@ -1,0 +1,11 @@
+-- FIND ALL EMPLOYEE TRANSACTIONS WHICH NAME STARTS WITH Y
+SELECT * FROM EmployeeTransaction AS T
+INNER JOIN Employee AS E ON E.EmployeeNumber = T.EmployeeNumber
+WHERE EmployeeLastName like 'y%'
+
+
+--BETTER WAY TO TO THAT WITH IS WITH SUB QUERIES 
+SELECT * FROM EmployeeTransaction AS T
+WHERE EmployeeNumber IN 
+	(SELECT EmployeeNumber FROM Employee WHERE EmployeeLastName LIKE 'y%') -- INNER QUERY -> ADVANDATEGE IS THAT YOU CAN SELECT THAT QUERY AND RUN IT SEPARATELY
+ORDER BY EmployeeNumber
