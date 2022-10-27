@@ -1,0 +1,47 @@
+DECLARE @NEWVALUE AS UNIQUEIDENTIFIER --GUID -> 128 BIT INTEGER  
+SET @NEWVALUE = NEWID()
+SELECT @NEWVALUE AS TheNewID
+
+GO
+
+BEGIN TRANSACTION
+
+CREATE TABLE EMPLOYEE4
+(UniqueId UNIQUEIDENTIFIER CONSTRAINT df_Employee4_UniqueId DEFAULT NEWID(), -- THERE IS A PROBLEM WITH THIS APPROACH
+EmployeeNumber INT CONSTRAINT uq_Employee4_EmployeeNumber UNIQUE)            -- IS THAT IT REINDEX THE WHOLE TABLE ONCE YOU INSERT ANOTHER RECORD
+                                                                             -- SO IT LEADS TO PERFORMANCE ISSUES
+INSERT INTO EMPLOYEE4(EmployeeNumber) VALUES
+(1), (2), (3)
+SELECT * FROM EMPLOYEE4
+
+ROLLBACK TRANSACTION
+
+GO
+-- TO Counter these problems with sorting and performance
+-- microsoft created new guid form -> NEWSEQUENTIALID
+
+DECLARE @NEWVALUE AS UNIQUEIDENTIFIER
+SET @NEWVALUE = NEWSEQUENTIALID() -- CAN ONLY BE USED IN A COLUMN, DEFAULT CONSTRAINT
+SELECT @NEWVALUE AS TheNewId
+
+
+
+
+BEGIN TRANSACTION
+
+CREATE TABLE EMPLOYEE55
+(UniqueId UNIQUEIDENTIFIER CONSTRAINT df_Employee55_UniqueId DEFAULT NEWSEQUENTIALID(), --NEWSEQUENTIALID GIVES A BLOCK OF SEQUENTIAL NUMBERS WHICH HAVE AN ORDER
+EmployeeNumber INT CONSTRAINT uq_Employee4_EmployeeNumber UNIQUE)                       -- SO THERE IS LESS OF A PERFORMANCE PROBLEM WHEN INSERING NEW ROWS
+                                                                          
+INSERT INTO EMPLOYEE55(EmployeeNumber) VALUES
+(1), (2), (3)
+SELECT * FROM EMPLOYEE55
+
+ROLLBACK TRANSACTION
+
+-- But another performance aspect of it..
+-- GUIDS since they are 128 bites, 128 bits / 8 =>  16 bytes 
+-- while INTEGER only takes 4 bytes, so it takes way less space to store INT's instead of GUIDS
+
+
+
