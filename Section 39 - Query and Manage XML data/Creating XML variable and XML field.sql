@@ -25,3 +25,8 @@ WHERE EmployeeNumber = 200
 
 SELECT * FROM Employee WHERE EmployeeNumber = 200
 
+
+-- DROP EXAMPLE STUFF
+ALTER TABLE Employee
+DROP COLUMN XmlOutput
+
