@@ -13,18 +13,6 @@
 </Shopping>'
 
 
--- GET ME ALL SHOPPING ITEMS
-SELECT @x.query('for $ValueRetrieved in /Shopping/ShoppingTrip/Item 
-			     return $ValueRetrieved')
-
--- Give me only the values inside the <Item />
-SELECT @x.query('for $ValueRetrieved in /Shopping/ShoppingTrip/Item 
-				return string($ValueRetrieved)')
-
--- Retrun with semicolumn between each one
-SELECT @x.query('for $ValueRetrieved in /Shopping/ShoppingTrip/Item 
-				return concat(string($ValueRetrieved), ";")')
-
 -- Give me the items only from first shopping trip 
 SELECT @x.query('for $ValueRetrieved in /Shopping/ShoppingTrip[1]/Item 
 				return concat(string($ValueRetrieved), ";")')
@@ -33,7 +21,6 @@ SELECT @x.query('for $ValueRetrieved in /Shopping/ShoppingTrip[1]/Item
 
 --$ - variable
 
- 
  -- XQuery order of execution 
 --F - for
 --L - let
