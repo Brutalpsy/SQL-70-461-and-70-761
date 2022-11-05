@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[EmployeeTemporal](
 	ValidFrom DateTime2(2) GENERATED ALWAYS AS ROW START ,
 	ValidTo Datetime2(2) GENERATED ALWAYS AS ROW END,
 	PERIOD FOR SYSTEM_TIME (ValidFrom,ValidTo))
-	WITH (SYSTEM_VERSIONING = ON)
+	WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.EmployeeHistory)) -- you can name history table was you want
 
 
 
