@@ -1,0 +1,24 @@
+-- IMPLICIT TRANSACTIONS -> SELECT/UPDATE/DELETE/ANYTHING
+
+SELECT * FROM tblEmployee
+
+UPDATE tblEmployee 
+SET EmployeeNumber = 122
+WHERE EmployeeNumber = 123
+---------------------
+--EXPLICIT TRANSACTION
+
+BEGIN TRANSACTION
+
+SELECT * FROM tblEmployee
+
+
+UPDATE tblEmployee 
+SET EmployeeNumber = 123
+WHERE EmployeeNumber = 122
+
+
+--COMMIT TRANSACTION -- -> EXPLICIT COMMIT
+ROLLBACK TRANSACTION
+
+SELECT * FROM tblEmployee
