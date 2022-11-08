@@ -21,5 +21,7 @@ CREATE NONCLUSTERED INDEX inx_tblEmployee_DateOfBirth_Department ON tblEmployee(
 -- now it's using the created NONCLUSTERED INDEX inx_tblEmployee_DateOfBirth_Departmen
 -- which would lead to way better performance for this query
 -- so you can gain perfomance for specific queires by adding non clustered index on those fields
+-- but insertion of new rows will suffer, since it will need balance tree to reindex
+-- so don't create too many useless indexes
 SELECT DateOfBirth, Department FROM tblEmployee
 where DateOfBirth >= '19890101' AND DateOfBirth < '19900101'
