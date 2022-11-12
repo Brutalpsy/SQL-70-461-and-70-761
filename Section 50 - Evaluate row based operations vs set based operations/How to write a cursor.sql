@@ -1,0 +1,15 @@
+DECLARE @EmployeeId INT
+
+DECLARE CSL CURSOR FOR 
+SELECT EmployeeNumber FROM tblEmployee
+WHERE EmployeeNumber BETWEEN 120 AND 299
+
+OPEN CSL -- gone to row 0
+FETCH NEXT FROM CSL INTO @EmployeeId -- fetch next -> gone to row 1
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	SELECT * FROM tblTransaction WHERE EmployeeNumber = @EmployeeId
+	FETCH NEXT FROM CSL INTO @EmployeeId 
+END
+CLOSE CSL
+DEALLOCATE CSL -- DEALLOCATE THE MEMORY NEEDED FOR CURSOR
